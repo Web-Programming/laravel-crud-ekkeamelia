@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 use App\http\controllers\API\ProdiController;
 Route::resource("prodi", ProdiController::class);
 
+use App\http\comtrollers\API\ProdiController;
+Route::group(['middleware'=> ['auth:sanctum']], function(){
+    Route::resource("prodi", ProdiController::class);
+});
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
