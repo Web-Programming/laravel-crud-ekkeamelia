@@ -42,7 +42,7 @@ class ProdiController extends Controller
         $prodi->nama = $validateData['nama']; //simpan nilai input ($validateData['nama]) ke dalam property nama prodi ($prodi->nama)
         $prodi->institusi_id = 0;
         $prodi->fakultas_id = 1;
-        $foto->foto= $nama_file;
+        $prodi->foto= $nama_file;
         $prodi->save(); //simpan ke dalam tabel prodis
 
         //return "Data prodi $prodi->nama berhasil disimpan ke database"; // tampilkan pesan berhasil

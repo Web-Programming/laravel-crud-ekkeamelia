@@ -26,7 +26,24 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nama' => 'required|min:5|max:20',
+            'foto' => 'required|file|image|max:5000'
+        ]);
+        //mengambil file extension
+        $ext = $request->foto->getClientOriginalExtension();
+        //menentukan nama file 
+        $nama_file = "foto-" . time() . "." . $ext;
+        $path = $request->foto->storeAs("public", $nama_file);
+
+
+        $prodi = new Prodi(); 
+        $prodi->nama = $validateData['nama'];
+       ;// $prodi->fakultas_id = 1;
+        $prodi->foto= $nama_file;
+        $prodi->save(); 
+
+        return['status' => true, 'message' => 'data berhasil disimpan'];
     }
 
     /**
@@ -55,7 +72,12 @@ class ProdiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validateData = $request->validate([
+            'nama' => 'required|min:5|max:20',
+        ]);
+
+        Prodi::where('id', $id)->update($validateData);
+        return ['status' => true, 'message'=> 'Data berhasil diupdate'];
     }
 
     /**
@@ -66,6 +88,12 @@ class ProdiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prodi = Prodi::find($id);
+        if($prodi){
+            $prodi->delete();
+            return['status' => true, 'message' => 'Data Prodi berhasil dihapus'];
+        }else{
+            return['status' => false, 'message' => 'Data Prodi gagal dihapus'];
+        }
     }
 }
